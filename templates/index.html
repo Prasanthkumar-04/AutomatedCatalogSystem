@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automated Catalog System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Automated Catalog System</h1>
+            <p>A Text input field used to scrape data</p>
+        </header>
+        
+        <section class="search-section">
+            <div class="input-group">
+                <input type="text" placeholder="Enter Product" id="product">
+                <button id="searchBtn">Search</button>
+            </div>
+        </section>
+        
+        <section class="results-section">
+            <h2>Scraped Products</h2>
+            <div class="results">
+                <!-- Dynamic content will be inserted here -->
+                <div id="productResults"></div>
+            </div>
+        </section>
+    </div>
+</body>
+</html>
+<script>
+    document.getElementById("searchBtn").addEventListener("click", function() {
+        const product = document.getElementById("product").value;
+
+        fetch('/search', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ product: product }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            let output = '';
+            data.forEach(product => {
+                output += `<div>${product.name}</div>`;
+            });
+            document.getElementById("productResults").innerHTML = output;
+        })
+        .catch(error => console.error('Error:', error));
+    });
+</script>

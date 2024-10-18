@@ -1,0 +1,5 @@
+beautifulsoup4==4.x.x
+Flask==x.x.x
+pymongo==x.x.x
+requests==x.x.x
+lxml==x.x.x
